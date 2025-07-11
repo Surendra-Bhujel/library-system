@@ -19,10 +19,14 @@ public class Book {
     //Behaviour -> increase quantity, decrease quantity
 
     public void increaseQuantity(){
-        System.out.println("need to work to increase.");
+        quantity++;
     }
     public void decreaseQuantity(){
-        this.bookQuantity--;
+        if(quantity>0){
+            quantity--;
+        }else{
+            System.out.println("Quantity is already zero cannot decrease further.");
+        }
     }
     public String getBookName(){
         return bookName;

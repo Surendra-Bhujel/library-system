@@ -27,9 +27,9 @@ public class Library {
             System.out.println("Working on borrowing books");
             // ToDo which book to borrow
             // ToDo after borrowing it should show message
-            System.out.println("Before"+book1.getQuantity());
+            System.out.println("Before "+book1.getQuantity());
             user1.borrowBook(user1,book1);
-            System.out.println("After"+book1.getQuantity());
+            System.out.println("After "+book1.getQuantity());
 
         } else if (option == 3) {
             System.out.println("working on returning books");
