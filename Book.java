@@ -2,7 +2,6 @@ public class Book {
     // Books attributes -> book number, nam, quantity, author
     // To Do create attributes
 
-
     private String bookName;
     private int bookNumber;
     private String authorName;
