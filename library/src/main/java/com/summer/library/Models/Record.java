@@ -1,4 +1,4 @@
-package Models;
+package com.summer.library.Models;
 
 public class Record {
 

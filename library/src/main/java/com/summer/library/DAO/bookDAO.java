@@ -1,5 +1,5 @@
-package DAO;
-import Models.Book;
+package com.summer.library.DAO;
+import com.summer.library.Models.Book;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,7 +14,7 @@ public class bookDAO {
     }
     public void insertBook(Book book) {
         try {
-            Connection conn = DAO.DatabaseConnection.connect();
+            Connection conn = DatabaseConnection.connect();
             String query = "INSERT INTO book" +
                     "(BookName, BookNumber, AuthorName, Quantity) VALUES (?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(query);
@@ -34,7 +34,7 @@ public class bookDAO {
     }
     public void updateBookDetail(int bookid, int bookNumber){
         try {
-            Connection conn = DAO.DatabaseConnection.connect();
+            Connection conn = DatabaseConnection.connect();
             String query = "UPDATE book SET bookNumber = ? WHERE bookid = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1,bookNumber);
@@ -50,7 +50,7 @@ public class bookDAO {
     }
     public void deleteBookDetail(int bookid) {
         try{
-            Connection conn = DAO.DatabaseConnection.connect();
+            Connection conn = DatabaseConnection.connect();
             String query = "DELETE FROM book WHERE bookId = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, bookid);
@@ -67,7 +67,7 @@ public class bookDAO {
     public ArrayList<Book> getBooks(){
         ArrayList<Book> bookList = new ArrayList<>();
         try{
-            Connection conn = DAO.DatabaseConnection.connect();
+            Connection conn = DatabaseConnection.connect();
             String query = "SELECT BookName, BookNumber, AuthorName, Quantity from book";
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet bookSet = ps.executeQuery();

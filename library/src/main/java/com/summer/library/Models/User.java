@@ -1,4 +1,4 @@
-package Models;
+package com.summer.library.Models;
 
 public class User {
     // Attribute -> name, username, contact
@@ -18,7 +18,7 @@ public class User {
     }
     public void borrowBook(User user, Book book){
         if(book.getQuantity()>0){
-            Models.Record record = new Record(user,book);
+            Record record = new Record(user,book);
             book.decreaseQuantity();
 
         }else{

@@ -1,17 +1,21 @@
-package Controller;
+package com.summer.library.Controller;
 
-import DAO.bookDAO;
-import Models.Book;
+import com.summer.library.DAO.bookDAO;
+import com.summer.library.Models.Book;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 
+@RestController
+@RequestMapping("/api")
 public class BookController {
     bookDAO bookdao = new bookDAO();
 
-    public void storeBook(Book book){
+    @PostMapping
+    public void storeBook(@RequestBody Book book){
         bookdao.insertBook(book);
     }
+    @GetMapping("/books")
     public ArrayList<Book> getBooks(){
        return bookdao.getBooks();
     }
