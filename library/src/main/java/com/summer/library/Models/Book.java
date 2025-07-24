@@ -1,33 +1,55 @@
 package com.summer.library.Models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "book")
 public class Book {
-    // Books attributes -> book number, nam, quantity, author
-    // To Do create attributes
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int bookId;
 
     private String bookName;
     private int bookNumber;
     private String bookAuthor;
     private int bookQuantity;
 
-    public Book(String bookName,int bookNumber,String bookAuthor, int bookQuantity){
-        this.bookName=bookName;
-        this.bookNumber=bookNumber;
-        this.bookAuthor=bookAuthor;
-        this.bookQuantity=bookQuantity;
-
+    // No-arg constructor required by JPA
+    public Book() {
     }
 
-    //Behaviour -> increase quantity, decrease quantity
+    // Constructor with all fields except bookId (auto-generated)
+    public Book(String bookName, int bookNumber, String bookAuthor, int bookQuantity) {
+        this.bookName = bookName;
+        this.bookNumber = bookNumber;
+        this.bookAuthor = bookAuthor;
+        this.bookQuantity = bookQuantity;
+    }
 
-    public void increaseQuantity(){
+    // Behaviors
+    public void increaseQuantity() {
         this.bookQuantity++;
     }
 
-    public void decreaseQuantity(){
-       this.bookQuantity--;
+    public void decreaseQuantity() {
+        if (this.bookQuantity > 0) {
+            this.bookQuantity--;
+        } else {
+            throw new IllegalStateException("Book quantity cannot be negative");
+        }
     }
 
-    public String getBookName(){
+    // Getters and Setters
+    public int getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(int bookId) {
+        this.bookId = bookId;
+    }
+
+    public String getBookName() {
         return bookName;
     }
 
@@ -42,19 +64,24 @@ public class Book {
     public void setBookNumber(int bookNumber) {
         this.bookNumber = bookNumber;
     }
-    public String getAuthorName(){
+
+    public String getBookAuthor() {
         return bookAuthor;
     }
 
-    public void setAuthorName(String bookAuthor) {
+    public void setBookAuthor(String bookAuthor) {
         this.bookAuthor = bookAuthor;
     }
 
-    public int getQuantity() {
+    public int getBookQuantity() {
         return bookQuantity;
     }
 
-    public void setQuantity(int bookQuantity) {
-        this.bookQuantity = bookQuantity;
+    public void setBookQuantity(int bookQuantity) {
+        if (bookQuantity >= 0) {
+            this.bookQuantity = bookQuantity;
+        } else {
+            throw new IllegalArgumentException("Book quantity cannot be negative");
+        }
     }
 }

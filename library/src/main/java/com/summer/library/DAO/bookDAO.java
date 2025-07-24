@@ -9,9 +9,11 @@ import java.util.ArrayList;
 
 public class bookDAO {
     private Connection conn;
-    public void BookDAO()throws SQLException, ClassNotFoundException{
+
+    public void BookDAO() throws SQLException, ClassNotFoundException {
         this.conn = DatabaseConnection.connect();
     }
+
     public void insertBook(Book book) {
         try {
             Connection conn = DatabaseConnection.connect();
@@ -32,46 +34,50 @@ public class bookDAO {
             throw new RuntimeException(e);
         }
     }
-    public void updateBookDetail(int bookid, int bookNumber){
+
+    public void updateBookDetail(int bookid, int bookNumber) {
         try {
             Connection conn = DatabaseConnection.connect();
             String query = "UPDATE book SET bookNumber = ? WHERE bookid = ?";
             PreparedStatement ps = conn.prepareStatement(query);
-            ps.setInt(1,bookNumber);
+            ps.setInt(1, bookNumber);
             ps.setInt(2, bookid);
-            if(ps.executeUpdate() > 0){
+            if (ps.executeUpdate() > 0) {
                 System.out.println("book updated");
-            }else{
+            } else {
                 System.out.println("Failed to update");
             }
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
     }
-    public void deleteBookDetail(int bookid) {
-        try{
+
+    public boolean deleteBookDetail(int bookid) {
+        try {
             Connection conn = DatabaseConnection.connect();
             String query = "DELETE FROM book WHERE bookId = ?";
             PreparedStatement ps = conn.prepareStatement(query);
             ps.setInt(1, bookid);
-            if(ps.executeUpdate()>0){
+            if (ps.executeUpdate() > 0) {
                 System.out.println("Book Deleted.");
-            }else {
+            } else {
                 System.out.println("Failed to delete Book.");
             }
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 
-    public ArrayList<Book> getBooks(){
+
+    public ArrayList<Book> getBooks() {
         ArrayList<Book> bookList = new ArrayList<>();
-        try{
+        try {
             Connection conn = DatabaseConnection.connect();
             String query = "SELECT BookName, BookNumber, AuthorName, Quantity from book";
             PreparedStatement ps = conn.prepareStatement(query);
             ResultSet bookSet = ps.executeQuery();
-            while (bookSet.next()){
+            while (bookSet.next()) {
                 Book book = new Book(
                         bookSet.getString("bookName"),
                         bookSet.getInt("bookNumber"),
@@ -80,7 +86,26 @@ public class bookDAO {
                 bookList.add(book);
             }
             return bookList;
-        }catch (SQLException | ClassNotFoundException e){
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Book getBookInfo(int bookid) {
+        try (PreparedStatement ps = conn.prepareStatement(
+                "SELECT BookName, BookNumber, AuthorName, Quantity FROM book WHERE bookId = ?")) {
+            ps.setInt(1, bookid);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return new Book(
+                        rs.getString("BookName"),
+                        rs.getInt("BookNumber"),
+                        rs.getString("AuthorName"),
+                        rs.getInt("Quantity")
+                );
+            }
+            return null;
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
